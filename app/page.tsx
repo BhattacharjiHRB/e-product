@@ -107,17 +107,26 @@ export default function Page() {
         </div>
       </div>
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between my-6 w-full max-w-4xl px-6">
-        <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold my-10 p-10 leading-1">
+        <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold p-5 leading-1">
           Products
         </h1>
-        <input
-          type="text"
-          placeholder="Search by name..."
-          className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <CategoryList value={selectedCategory} onChange={setSelectedCategory} />
+        <fieldset className="w-80 md:w-xl">
+          <legend>Search</legend>
+          <input
+            type="text"
+            placeholder="Search by name..."
+            className="flex-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </fieldset>
+        <fieldset className=" w-80 md:w-xl">
+          <legend>Category</legend>
+          <CategoryList
+            value={selectedCategory}
+            onChange={setSelectedCategory}
+          />
+        </fieldset>
       </div>
       {isLoading ? (
         <div className="flex flex-1 items-center justify-center gap-4 h-screen">
