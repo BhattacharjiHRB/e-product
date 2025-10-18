@@ -1,103 +1,144 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+import { CategoryList } from "@/components/CategoryList";
+import ProductCard from "@/components/ProductCard";
+import { useGetProductsDataQuery } from "@/lib/Features/products/productSlice";
+import { useAuth } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
+
+export default function Page() {
+  const { data, isLoading, error, refetch } = useGetProductsDataQuery();
+  const isLoggedIn = useAuth();
+  const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const filteredProducts = useMemo(() => {
+    if (!data) return [];
+
+    return data.filter((product) => {
+      const matchesSearch = product.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesCategory =
+        selectedCategory === "" || product.category.id === selectedCategory;
+
+      return matchesSearch && matchesCategory;
+    });
+  }, [data, searchTerm, selectedCategory]);
+
+  const categories = useMemo(() => {
+    if (!data) return [];
+    const uniqueCategories = Array.from(
+      new Set(data.map((p) => p.category.id)),
+    );
+    return uniqueCategories;
+  }, [data]);
+
+  if (!isLoggedIn) {
+    return (
+      <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-r from-red-200 via-red-300 to-red-400 px-4">
+        <img
+          src="/images/error.jpg"
+          alt="Error Illustration"
+          className="w-86 h-2/4 rounded-2xl object-contain mb-8 animate-bounce-slow"
         />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4 text-center animate-pulse">
+          Oops! Something Went Wrong
+        </h1>
+
+        <p className="text-lg sm:text-xl md:text-2xl text-white text-center mb-8 max-w-md">
+          Please Login to see The Products
+        </p>
+
+        <button
+          onClick={() => router.push("/login")}
+          className="px-6 py-3 bg-white text-red-500 font-semibold rounded-lg shadow-lg hover:bg-red-100 transition transform hover:scale-105 duration-300"
+        >
+          Login
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className=" flex flex-col items-center justify-center mx-auto container">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6">
+        <div className="md:col-span-2 row-span-2 rounded-2xl p-2 flex flex-col justify-center hover:scale-[1.02] transition">
+          <img
+            src={"/images/hero-2.jpg"}
+            alt="hero"
+            loading="lazy"
+            className="object-cover rounded-2xl w-full h-full"
+          />
+          <h1 className=" absolute mx-5 text-xl sm:text-2xl md:text-4xl lg:text-7xl font-bold bg-gradient-to-r from-primary to-black bg-clip-text text-transparent">
+            {" "}
+            Featured Products{" "}
+          </h1>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl p-6 text-white shadow-lg flex flex-col justify-center hover:scale-[1.02] transition">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">
+            Summer Sale
+          </h2>
+          <p className="font-semibold">
+            Get upto <strong>50%</strong> discount
+          </p>
+        </div>
+
+        <div className="bg-gradient-to-br from-green-400 to-teal-500 flex flex-col justify-center rounded-2xl p-6 text-white shadow-lg hover:scale-[1.02] transition">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4x font-bold">
+            Electronic Products
+          </h2>
+          <p className="font-semibold">
+            Get upto <strong>30%</strong> discount
+          </p>
+        </div>
+
+        <div className="md:col-span-2 bg-gradient-to-br from-orange-500 to-yellow-400 rounded-2xl p-6 text-white shadow-lg hover:scale-[1.02] transition">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4x font-bold">
+            Sneakers
+          </h2>
+          <p className="font-semibold">
+            Get upto <strong>40%</strong> discount
+          </p>
+        </div>
+      </div>
+      <div className="flex flex-col sm:flex-row gap-4 items-center justify-between my-6 w-full max-w-4xl px-6">
+        <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold my-10 p-10 leading-1">
+          Products
+        </h1>
+        <input
+          type="text"
+          placeholder="Search by name..."
+          className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <CategoryList value={selectedCategory} onChange={setSelectedCategory} />
+      </div>
+      {isLoading ? (
+        <div className="flex flex-1 items-center justify-center gap-4 h-screen">
+          <div className="w-30 h-30 border-4 border-t-[#AD8A64] rounded-full animate-spin"></div>
+          <div className="text-6xl font-semibold">Loading..</div>
+        </div>
+      ) : error ? (
+        <div className="text-red-300 bg-red-800 w-fit px-3 py-2 rounded">
+          Failed to load products
+        </div>
+      ) : filteredProducts.length === 0 ? (
+        <div className="text-red-700 text-xl font-bold my-20">
+          No products found
+        </div>
+      ) : (
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-10 sm:p-5 md:p-0">
+          {filteredProducts.map((p) => (
+            <ProductCard key={p.id} product={p} refetch={refetch} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
