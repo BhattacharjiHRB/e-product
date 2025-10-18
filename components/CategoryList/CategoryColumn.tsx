@@ -87,12 +87,8 @@ export const getCategoryColumns = ({
       const created = row.original.createdAt;
       const d = new Date(created!);
       const date = `${d.getDay()}/${d.getMonth() + 1}/${d.getFullYear()}`;
-      const time = `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
-      return (
-        <div className="text-left font-medium">
-          {date} - {time}
-        </div>
-      );
+
+      return <div className="text-left font-medium">{date}</div>;
     },
   },
   {

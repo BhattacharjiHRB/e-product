@@ -80,7 +80,7 @@ export const getProductColumns = ({
     header: "$Price",
     cell: ({ row }) => {
       const price = row.original.price;
-      return <div className="text-left font-medium">$ {price}</div>;
+      return <div className="text-left font-medium">${price}</div>;
     },
     enableSorting: true,
   },
