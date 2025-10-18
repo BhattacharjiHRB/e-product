@@ -28,14 +28,6 @@ export default function Page() {
     });
   }, [data, searchTerm, selectedCategory]);
 
-  const categories = useMemo(() => {
-    if (!data) return [];
-    const uniqueCategories = Array.from(
-      new Set(data.map((p) => p.category.id)),
-    );
-    return uniqueCategories;
-  }, [data]);
-
   if (!isLoggedIn) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-r from-red-200 via-red-300 to-red-400 px-4">
