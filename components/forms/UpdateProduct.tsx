@@ -133,7 +133,6 @@ export default function UpdateProductModal({ slug }: UpdateProductModalProps) {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* Images */}
             <FormField
               control={form.control}
               name="images"
@@ -165,7 +164,6 @@ export default function UpdateProductModal({ slug }: UpdateProductModalProps) {
               )}
             />
 
-            {/* Name */}
             <FormField
               control={form.control}
               name="name"
@@ -180,7 +178,6 @@ export default function UpdateProductModal({ slug }: UpdateProductModalProps) {
               )}
             />
 
-            {/* Price */}
             <FormField
               control={form.control}
               name="price"
@@ -195,7 +192,6 @@ export default function UpdateProductModal({ slug }: UpdateProductModalProps) {
               )}
             />
 
-            {/* Description */}
             <FormField
               control={form.control}
               name="description"
@@ -214,7 +210,6 @@ export default function UpdateProductModal({ slug }: UpdateProductModalProps) {
               )}
             />
 
-            {/* Category */}
             <FormField
               control={form.control}
               name="categoryId"

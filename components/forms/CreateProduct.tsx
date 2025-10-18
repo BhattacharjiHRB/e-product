@@ -47,7 +47,6 @@ const CreateProductForm = () => {
     },
   });
 
-  // Convert images to Base64
   const handleImage = (
     e: ChangeEvent<HTMLInputElement>,
     fieldChange: (value: string[]) => void,
@@ -68,17 +67,15 @@ const CreateProductForm = () => {
           const imageDataUrl = event.target?.result?.toString() || "";
           imageArray.push(imageDataUrl);
 
-          // once all files are processed
           if (imageArray.length === files.length) {
             fieldChange(imageArray);
           }
         };
-        fileReaders[index].readAsDataURL(file); // convert to base64
+        fileReaders[index].readAsDataURL(file);
       });
     }
   };
 
-  // Submit handler
   const onSubmit = async (values: ProductFormValues) => {
     setError(null);
     try {
