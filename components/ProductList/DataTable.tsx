@@ -67,21 +67,21 @@ export function ProductDataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="flex flex-1 items-center justify-between py-4">
+      <div className="flex flex-col sm:flex-1 items-center justify-between py-4">
         <Input
           placeholder="Search by product Name..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm max-sm:w-80"
         />
 
         <Link href={"/products/create"}>
           <Button
             variant={"default"}
             size={"lg"}
-            className=" bg-[#AD8A64] text-white hover:bg-[#AD8A64]/50 rounded-full"
+            className=" bg-[#AD8A64] text-white hover:bg-[#AD8A64]/50 max-sm:w-80 max-sm:mt-5 rounded-full"
           >
             <Plus size={20} />
             <span className="text-sm">Add Product</span>
