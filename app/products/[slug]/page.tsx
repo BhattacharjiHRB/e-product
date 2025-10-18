@@ -40,24 +40,24 @@ export default function Page(props: { params: Params }) {
   return (
     <>
       <Button
-        className="flex flex-1 items-center justify-center gap-2 m-5 "
+        className="flex flex-1 items-center m-5 justify-center gap-2 "
         onClick={() => router.back()}
       >
         <ArrowLeft className="h-10 w-10" />
         <span className="text-md font-medium">Back</span>
       </Button>
-      <div className=" container mx-auto p-4 flex flex-1 space-x-6 items-center justify-between gap-6">
-        <div className="w-1/2">
+      <div className=" container md:mx-auto p-10 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="md:w-1/2 mt-10 space-y-5">
           <img
             src={data.images?.[0]}
             alt="Product Image"
             className="object-cover w-full aspect-square shadow-2xl"
           />
         </div>
-        <div className="w-1/2 gap-5 flex flex-col">
+        <div className="md:w-1/2 gap-5 flex flex-col">
           <div className="flex justify-between items-start">
             <div className="space-y-6">
-              <h1 className="text-5xl font-Bold">
+              <h1 className="text-xl md:text-3xl lg:text-5xl font-Bold">
                 {data.name.substring(0, 150)}
               </h1>
               <div className="w-fit h-8 flex flex-1 items-center px-2 rounded-full border-2 bg-[#AD8A64]/20">
@@ -78,13 +78,14 @@ export default function Page(props: { params: Params }) {
           </div>
 
           <div className="mt-4">
-            <p className="text-lg font-medium">${data.price.toFixed(2)}</p>
+            <p className="text-sm md:text-lg lg:text-xl font-medium">
+              ${data.price.toFixed(2)}
+            </p>
             <p className="mt-3">{data.description || "No description."}</p>
           </div>
 
-          <div className="flex gap-4 mt-6">
+          <div className="flex flex-col md:flex-row w-full gap-4 mt-6">
             <UpdateProductModal slug={slug} />
-
             <Button
               variant={"destructive"}
               onClick={() => setOpen(true)}

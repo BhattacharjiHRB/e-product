@@ -70,7 +70,7 @@ function page() {
   return (
     <>
       <Button
-        className="flex flex-1 items-center justify-center gap-2 m-5 "
+        className="flex flex-1 items-center m-5 justify-center gap-2"
         onClick={() => router.back()}
       >
         <ArrowLeft className="h-10 w-10" />

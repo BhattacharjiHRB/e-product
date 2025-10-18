@@ -19,7 +19,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="bg-card shadow-sm fixed w-full z-50">
+    <header className="bg-card/70 shadow-sm w-full top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link
           href="/"
