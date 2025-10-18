@@ -106,10 +106,11 @@ export default function Page() {
           </p>
         </div>
       </div>
-      <div className="flex flex-col sm:flex-row gap-4 items-center justify-between my-6 w-full max-w-4xl px-6">
-        <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold p-5 leading-1">
+      <div className="flex flex-col sm:flex-row gap-4 items-center justify-evenly my-6 w-full max-w-4xl px-6">
+        <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold p-10 m-10 leading-1">
           Products
         </h1>
+        <div></div>
         <fieldset className="w-80 md:w-xl">
           <legend>Search</legend>
           <input
